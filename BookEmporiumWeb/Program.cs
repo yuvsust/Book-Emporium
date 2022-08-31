@@ -1,7 +1,13 @@
+using BookEmporium.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DifaultConnection"), b => b.MigrationsAssembly("BookEmporium.DataAccess")
+    ));
 
 var app = builder.Build();
 
