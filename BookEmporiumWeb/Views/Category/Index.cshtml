@@ -1,7 +1,7 @@
 ﻿@using BookEmporium.Models
 @model IEnumerable<Category>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Category";
 }
 
 <div class="container pt-3">
@@ -20,19 +20,37 @@
 
 </div>
 
-<table class="table table-bordered table-striped" width="100%">
+<table class="table table-bordered table-stripped table-hover" style="width:100%">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>Category Name</th>
             <th>Display Order</th>
+            <th colspan="2"></th>
         </tr>
     </thead>
+
     <tbody>
-        @foreach(var category in Model)
+        @foreach(var obj in Model)
         {
             <tr>
-                <td width="50%">@category.Name</td>
-                <td width="30%">@category.DisplayOrder</td>
+                <td width=50%>@obj.Name</td>
+                <td width=30%>@obj.DisplayOrder</td>
+                <td style="border: 0px; text-align: center;">
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id"
+                            class="btn btn-primary"> 
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </div>
+                </td>
+                <td style="border-left: 0px; text-align: center;">
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id"
+                            class="btn btn-danger"> 
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </a>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>

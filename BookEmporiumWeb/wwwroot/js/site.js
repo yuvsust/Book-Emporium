@@ -1,4 +1,21 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// Common JS
 
-// Write your JavaScript code.
+$(document).ready(function () {
+    makeCurrentNavItemActive();
+
+});
+
+function makeCurrentNavItemActive() {
+    if (currentPageTitle == 'Home') {
+        $('#homeNav').addClass('active');
+    } else {
+        $('#contentManagementNav').addClass('active');
+        if (currentPageTitle == 'Category') {
+            $('#categoryNav').addClass('active');
+        } else if (currentPageTitle == 'Cover Type') {
+            $('#coverTypeNav').addClass('active');
+        } else if (currentPageTitle == 'Category') {
+            $('#productNav').addClass('active');
+        }
+    }
+}
