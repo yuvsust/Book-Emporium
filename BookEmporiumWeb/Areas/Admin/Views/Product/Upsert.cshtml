@@ -1,9 +1,13 @@
 ﻿@model BookEmporium.Models.ViewModels.ProductViewModel
+@{
+    ViewData["Title"] = "Product";
+}
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden/>
     <div class="border p-3 mt-4 row">
         <div class="row pb-2">
-            <h2 class="text-primary">Edit Product</h2>
+            <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
             <hr />
         </div>
         <div class="mb-3">
@@ -49,6 +53,7 @@
         <div class="mb-3">
             <label asp-for="Product.ImageUrl"></label>
             <input type="file" name="file" class="form-control" id="imageUrl"/>
+            <input asp-for="Product.ImageUrl" hidden/>
         </div>
         <div class="mb-3 col-6">
             <label asp-for="Product.CategoryId"></label>

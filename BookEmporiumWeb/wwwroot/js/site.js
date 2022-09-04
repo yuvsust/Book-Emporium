@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
     makeCurrentNavItemActive();
+    showPageNotification();
 
 });
 
@@ -14,8 +15,17 @@ function makeCurrentNavItemActive() {
             $('#categoryNav').addClass('active');
         } else if (currentPageTitle == 'Cover Type') {
             $('#coverTypeNav').addClass('active');
-        } else if (currentPageTitle == 'Category') {
+        } else if (currentPageTitle == 'Product') {
             $('#productNav').addClass('active');
-        }
+        } 
+    }
+}
+
+function showPageNotification() {
+    if (successNotification) {
+        toastr.success(successNotification);
+    }
+    if (errorNotification) {
+        toastr.error(errorNotification);
     }
 }

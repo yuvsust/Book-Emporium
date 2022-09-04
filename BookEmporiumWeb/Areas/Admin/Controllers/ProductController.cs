@@ -17,8 +17,7 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> objProductList = _unitOfWOrk.Product.GetAll();
-            return View(objProductList);
+            return View();
         }
 
         // GET
@@ -46,7 +45,8 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
             else
             {
                 //update
-                return View();
+                productViewModel.Product = _unitOfWOrk.Product.GetFirstOrDefault(x => x.Id == id);
+                return View(productViewModel);
             }
         }
 
@@ -63,15 +63,33 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
                     string fileName = Guid.NewGuid().ToString();
                     var uploads = Path.Combine(wwwRootPath, @"images\products");
                     var extension = Path.GetExtension(file.FileName);
+
+                    if(productViewModel.Product.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, productViewModel.Product.ImageUrl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
                     using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                     {
                         file.CopyTo(fileStreams);
                     }
                     productViewModel.Product.ImageUrl = @"images\products\" + fileName + extension;
                 }
-                _unitOfWOrk.Product.Add(productViewModel.Product);
+                if (productViewModel.Product.Id == 0)
+                {
+                    _unitOfWOrk.Product.Add(productViewModel.Product);
+                    TempData["success"] = "Product is created successfully";
+                }
+                else
+                {
+                    _unitOfWOrk.Product.Update(productViewModel.Product);
+                    TempData["success"] = "Product is updated successfully";
+                }
                 _unitOfWOrk.Save();
-                TempData["success"] = "Product is created successfully";
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
