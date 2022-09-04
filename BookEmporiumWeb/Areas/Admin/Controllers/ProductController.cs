@@ -9,9 +9,11 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWOrk;
-        public ProductController(IUnitOfWork unitOfWOrk)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUnitOfWork unitOfWOrk, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWOrk = unitOfWOrk;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -55,9 +57,36 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                
+                if (file != null)
+                {
+                    var wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    productViewModel.Product.ImageUrl = @"images\products\" + fileName + extension;
+                }
+                _unitOfWOrk.Product.Add(productViewModel.Product);
+                _unitOfWOrk.Save();
+                TempData["success"] = "Product is created successfully";
+                return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
         }
+
+        #region API Calls
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWOrk.Product.GetAll(includeProperties: "Category,CoverType");
+            return Json(new
+            {
+                data = productList
+            });
+        }
+        #endregion
     }
 }
