@@ -14,7 +14,7 @@ namespace BookEmporiumWeb.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<CoverType> coverTypes = _unitOfWork.CoverType.GetAllAsync();
+            IEnumerable<CoverType> coverTypes = _unitOfWork.CoverType.GetAllAsync().Result;
             return View(coverTypes);
         }
 
@@ -46,7 +46,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id).Result;
             if (coverTypeObj == null)
             {
                 return NotFound();
@@ -76,7 +76,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id).Result;
             if (coverTypeObj == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace BookEmporiumWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(CoverType obj)
         {
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == obj.Id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == obj.Id).Result;
             if (coverTypeObj == null)
             {
                 return NotFound();

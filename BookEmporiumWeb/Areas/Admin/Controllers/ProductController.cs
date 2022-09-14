@@ -26,12 +26,12 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
             ProductViewModel productViewModel = new ProductViewModel()
             {
                 Product = new Product(),
-                CategoryList = _unitOfWOrk.Category.GetAllAsync().Select(u => new SelectListItem()
+                CategoryList = _unitOfWOrk.Category.GetAllAsync().Result.Select(u => new SelectListItem()
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
                 }),
-                CoverTypeList = _unitOfWOrk.CoverType.GetAllAsync().Select(u => new SelectListItem()
+                CoverTypeList = _unitOfWOrk.CoverType.GetAllAsync().Result.Select(u => new SelectListItem()
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -45,7 +45,7 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
             else
             {
                 //update
-                productViewModel.Product = _unitOfWOrk.Product.GetFirstOrDefaultAsync(x => x.Id == id);
+                productViewModel.Product = _unitOfWOrk.Product.GetFirstOrDefaultAsync(x => x.Id == id).Result;
                 return View(productViewModel);
             }
         }
@@ -109,7 +109,7 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var obj = _unitOfWOrk.Product.GetFirstOrDefaultAsync(x => x.Id == id);
+            var obj = _unitOfWOrk.Product.GetFirstOrDefaultAsync(x => x.Id == id).Result;
             if(obj is null)
             {
                 return Json(new { success = false, message = "Error while Deleting" });

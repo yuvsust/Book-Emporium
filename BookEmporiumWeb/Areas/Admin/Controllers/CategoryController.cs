@@ -14,7 +14,7 @@ namespace BookEmporiumWeb.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Category> categoryList = _unitOfWork.Category.GetAllAsync();
+            IEnumerable<Category> categoryList = _unitOfWork.Category.GetAllAsync().Result;
             return View(categoryList);
         }
 
@@ -76,7 +76,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id).Result;
             if (categoryObj == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace BookEmporiumWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Category obj)
         {
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == obj.Id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == obj.Id).Result;
             if(categoryObj == null)
             {
                 return NotFound();
