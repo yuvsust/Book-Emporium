@@ -14,7 +14,7 @@ namespace BookEmporiumWeb.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<CoverType> coverTypes = _unitOfWork.CoverType.GetAll();
+            IEnumerable<CoverType> coverTypes = _unitOfWork.CoverType.GetAllAsync();
             return View(coverTypes);
         }
 
@@ -31,7 +31,7 @@ namespace BookEmporiumWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.CoverType.Add(obj);
+                _unitOfWork.CoverType.AddAsync(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Cover Type is created successfully";
                 return RedirectToAction("Index");
@@ -46,7 +46,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefault(x => x.Id == id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id);
             if (coverTypeObj == null)
             {
                 return NotFound();
@@ -76,7 +76,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefault(x => x.Id == id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == id);
             if (coverTypeObj == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace BookEmporiumWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(CoverType obj)
         {
-            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefault(x => x.Id == obj.Id);
+            var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefaultAsync(x => x.Id == obj.Id);
             if (coverTypeObj == null)
             {
                 return NotFound();

@@ -14,7 +14,7 @@ namespace BookEmporiumWeb.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Category> categoryList = _unitOfWork.Category.GetAll();
+            IEnumerable<Category> categoryList = _unitOfWork.Category.GetAllAsync();
             return View(categoryList);
         }
 
@@ -31,7 +31,7 @@ namespace BookEmporiumWeb.Controllers
         {
             if(ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Category.AddAsync(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Category is created successfully";
                 return RedirectToAction("Index");
@@ -46,7 +46,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id);
             if (categoryObj == null)
             {
                 return NotFound();
@@ -76,7 +76,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id);
             if (categoryObj == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace BookEmporiumWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Category obj)
         {
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == obj.Id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == obj.Id);
             if(categoryObj == null)
             {
                 return NotFound();
