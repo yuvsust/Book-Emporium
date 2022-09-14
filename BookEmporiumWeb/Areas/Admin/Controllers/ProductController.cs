@@ -77,7 +77,7 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
                     {
                         file.CopyTo(fileStreams);
                     }
-                    productViewModel.Product.ImageUrl = @"images\products\" + fileName + extension;
+                    productViewModel.Product.ImageUrl = @"\images\products\" + fileName + extension;
                 }
                 if (productViewModel.Product.Id == 0)
                 {
@@ -104,6 +104,24 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
             {
                 data = productList
             });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var obj = _unitOfWOrk.Product.GetFirstOrDefault(x => x.Id == id);
+            if(obj is null)
+            {
+                return Json(new { success = false, message = "Error while Deleting" });
+            }
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            _unitOfWOrk.Product.Remove(obj);
+            _unitOfWOrk.Save();
+            return Json(new { success = true, message = "Delete successfully" });
         }
         #endregion
     }
