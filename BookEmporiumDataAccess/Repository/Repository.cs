@@ -15,12 +15,12 @@ namespace BookEmporium.DataAccess.Repository
             _db = db;
             _dbSet = db.Set<T>();
         }
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public async Task<IEnumerable<T>> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet;
             if(includeProperties != null)
@@ -30,10 +30,10 @@ namespace BookEmporium.DataAccess.Repository
                     query = query.Include(prop);
                 }
             }
-            return query.ToList();
+            return await query.ToListAsync();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public async Task<T> GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet;
             query = query.Where(filter);
@@ -44,7 +44,7 @@ namespace BookEmporium.DataAccess.Repository
                     query = query.Include(prop);
                 }
             }
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         public void Remove(T entity)
