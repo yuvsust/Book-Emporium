@@ -5,7 +5,8 @@ namespace BookEmporium.DataAccess.Repository.IRepository
     {
         public ICategoryRepository Category { get; }
         public ICoverTypeRepository CoverType { get; }
-        IProductRepository Product { get; }
+        public IProductRepository Product { get; }
+        public ICompanyRepository Company { get; }
         public void Save();
     }
 }
