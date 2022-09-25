@@ -3,7 +3,6 @@
 $(document).ready(function () {
     makeCurrentNavItemActive();
     showPageNotification();
-
 });
 
 function makeCurrentNavItemActive() {
@@ -17,6 +16,8 @@ function makeCurrentNavItemActive() {
             $('#coverTypeNav').addClass('active');
         } else if (currentPageTitle == 'Product') {
             $('#productNav').addClass('active');
+        } else if (currentPageTitle == 'Company') {
+            $('#companyNav').addClass('active');
         } 
     }
 }

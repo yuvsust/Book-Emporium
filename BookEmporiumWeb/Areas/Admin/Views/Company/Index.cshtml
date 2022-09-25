@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Company";
+}
+@section Styles{
+    <link rel="Stylesheet" href="~/css/company-styles.css" />
+}
+
+<div class="container pt-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Company List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Company" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp Create New Company
+            </a>
+        </div>
+    </div>
+    <br />
+    <br />
+
+</div>
+
+<table id="tblData" class="table table-bordered table-stripped table-hover" style="width:100%">
+    <thead>
+        <tr class="table-primary">
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>PostalCode</th>
+            <th>PhoneNumber</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script src="~/js/company/company-index-scripts.js"></script>
+}

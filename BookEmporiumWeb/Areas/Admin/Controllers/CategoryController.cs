@@ -46,7 +46,7 @@ namespace BookEmporiumWeb.Controllers
             {
                 return NotFound();
             }
-            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefaultAsync(x => x.Id == id).Result;
             if (categoryObj == null)
             {
                 return NotFound();

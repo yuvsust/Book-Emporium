@@ -99,7 +99,7 @@ namespace BookEmporiumWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var productList = _unitOfWOrk.Product.GetAllAsync(includeProperties: "Category,CoverType");
+            var productList = _unitOfWOrk.Product.GetAllAsync(includeProperties: "Category,CoverType").Result;
             return Json(new
             {
                 data = productList

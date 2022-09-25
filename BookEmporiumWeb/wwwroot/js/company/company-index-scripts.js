@@ -1,25 +1,26 @@
 ﻿$(document).ready(function () {
     loadDataTable();
-    $(document).on('click', '.btn-delete', deleteProduct);
+    $(document).on('click', '.btn-delete', deleteCompany);
 });
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         'ajax': {
-            'url': '/Admin/Product/GetAll'
+            'url': '/Admin/Company/GetAll'
         },
         'columns': [
-            { 'data': 'title', 'width': '15%' },
-            { 'data': 'isbn', 'width': '15%' },
-            { 'data': 'price', 'width': '15%' },
-            { 'data': 'author', 'width': '15%' },
-            { 'data': 'category.name', 'width': '15%' },
+            { 'data': 'name', 'width': '15%' },
+            { 'data': 'streetAddress', 'width': '15%' },
+            { 'data': 'city', 'width': '15%' },
+            { 'data': 'state', 'width': '15%' },
+            { 'data': 'postalCode', 'width': '15%' },
+            { 'data': 'phoneNumber', 'width': '15%' },
             {
                 'data': 'id',
                 'render': function (data) {
                     return `
                         <div class="w-75 btn-group" role="group">
-                            <a href="/Admin/Product/Upsert?id=${data}"
+                            <a href="/Admin/Company/Upsert?id=${data}"
                                 class="btn btn-primary"> <i class="bi bi-pencil-square"></i> Edit
                             </a>&nbsp;
                             <a class="btn btn-danger btn-delete"> <i class="bi bi-trash-fill"></i> Delete
@@ -36,7 +37,7 @@ function loadDataTable() {
     })
 }
 
-function deleteProduct() {
+function deleteCompany() {
     let id = $(this).closest('tr').data('id');
     Swal.fire({
         title: 'Are you sure?',
@@ -48,7 +49,7 @@ function deleteProduct() {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         $.ajax({
-            url: '/Admin/Product/Delete',
+            url: '/Admin/Company/Delete',
             data: { id: id },
             type: 'DELETE',
             success: function (data) {
